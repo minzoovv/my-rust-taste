@@ -2,7 +2,7 @@
 
 **Rust Study in MMT!**
 
-12/12 ~ keep going 🙌
+2019 12/12 ~ keep going 🙌
 
 > Participants
  - Seonghyeon Kim [@NovemberOscar](https://github.com/NovemberOscar)
