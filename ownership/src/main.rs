@@ -91,10 +91,65 @@ fn ref_use_both(){
 //     &s
 // } // s will be dropped in this block end can return itself 
 
+// 4-9 slice 
+
+fn first_words_without_slice(s: &String) -> usize {
+    let bytes = s.as_bytes();
+    for (i, &item) in bytes.iter().enumerate(){
+        if item == b' ' {
+            return i; // 안의 depth에서 return을 하려면 return 예약어를 사용하는 듯?
+        }
+    }
+    s.len()
+}
+
+fn first_words_with_slice(s: &str) -> &str {
+    let bytes = s.as_bytes();
+    for (i, &item) in bytes.iter().enumerate(){
+        if item == b' '{
+            return &s[0..i];
+        }
+    }
+    &s[..]
+}
+
+// 이런 경우를 해결할 수 없다
+fn main2(){
+    let mut s = String::from("hi!");
+    let s1 = "this is literal";
+    let word = first_words_without_slice(&s); // with slice는 이걸 해결 할 수 있다!
+    let word2 = first_words_with_slice(&s1[..]);
+
+    println!("{}", word2);
+
+    //s.clear(); // 이미 s의 길이 값은 변했지만, word 값은 이전의 s 길이를 반영하고 있다.
+    
+}
+
+fn slice(){
+    let mut s = String::from("hello world");
+
+    let hello = &s[0..5];
+    let o_world = &s[4..];
+    // 그럼 이렇게는 될까?
+
+    println!("{} {}", hello, o_world);
+    let world = &mut s[6..];
+    let literal = "this is literal"; // datatype : &str
+    // world.push_str(" new world");
+    // println!("{}", world);
+}
+
+
+
 fn main() {
     ownership_1();
     ownership_2();
+
     ref_borrow();
     ref_mut_ref();
     ref_use_both();
+    
+    slice();
+    main2();
 }
