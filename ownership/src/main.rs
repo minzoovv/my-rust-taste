@@ -9,7 +9,7 @@ fn ownership_1 (){
     let x = 5;
     makes_copy(x);
     // 여기선 copy이므로 에러가 나지 않음 
-    // println!("{}", x);
+    println!("{}", x);
 }
 
 fn takes_ownership(some_str: String){
@@ -58,27 +58,27 @@ fn change(s: &String) {
 */
 
 // 4-6 reference - mut ref 
-fn ref_mut_ref(){
-    let mut s = String::from("hello"); // 가변 변수 생성, 
-    let s1 = &mut s; // 가변 참조를 생생성
-    change(s1); 
+// fn ref_mut_ref(){
+//     let mut s = String::from("hello"); // 가변 변수 생성, 
 
-   // let s2 = &mut s; // 불가능. 특정 범위, 특정 데이터에 대해 2개 이상의 가변 참조를 만들 수 없음. 
-} 
+//     let s2 = &mut s;
+//     change(&mut s); // 가변 참조를 생성
+//      // 불가능. 특정 범위, 특정 데이터에 대해 2개 이상의 가변 참조를 만들 수 없음. 
+// } 
 
-fn change(s: &mut String) {
-    s.push_str(" world"); // 가변 참조는 해당 변수에 대한 변경이 가능함. 
-} 
+// fn change(s: &mut String) {
+//     s.push_str(" world"); // 가변 참조는 해당 변수에 대한 변경이 가능함. 
+// } 
 
-// 4-7 reference - use both 
-fn ref_use_both(){
-    let mut s = String::from("this is test");
-    let a = &s;
-    let b = &s;
-    // let c = &mut s; // 불변참조를 사용할 때 가변참조를 사용 할 수 없음.
+// // 4-7 reference - use both 
+// fn ref_use_both(){
+//     let mut s = String::from("this is test");
+//     let a = &s;
+//     let b = &s;
+//     let c = &mut s; // 불변참조를 사용할 때 가변참조를 사용 할 수 없음.
 
-    println!("{} {}", a, b)
-}
+//     println!("{} {}", a, b)
+// }
 
 // // 4-8 dead ref
 // fn dead_ref(){
@@ -88,7 +88,7 @@ fn ref_use_both(){
 // fn dangle() -> String {
 //     let s = String::from("hi");
     
-//     &s
+//     s
 // } // s will be dropped in this block end can return itself 
 
 // 4-9 slice 
@@ -115,41 +115,54 @@ fn first_words_with_slice(s: &str) -> &str {
 
 // 이런 경우를 해결할 수 없다
 fn main2(){
-    let mut s = String::from("hi!");
+    let mut s = String::from("hi! that");
     let s1 = "this is literal";
     let word = first_words_without_slice(&s); // with slice는 이걸 해결 할 수 있다!
     let word2 = first_words_with_slice(&s1[..]);
+    println!("{}", &s1[..]);
 
-    println!("{}", word2);
-
-    //s.clear(); // 이미 s의 길이 값은 변했지만, word 값은 이전의 s 길이를 반영하고 있다.
+    // s.clear(); // 이미 s의 길이 값은 변했지만, word 값은 이전의 s 길이를 반영하고 있다.
     
 }
 
 fn slice(){
     let mut s = String::from("hello world");
 
-    let hello = &s[0..5];
+    let hello = &s[..5];
     let o_world = &s[4..];
     // 그럼 이렇게는 될까?
 
     println!("{} {}", hello, o_world);
-    let world = &mut s[6..];
+    let world = &s[6..];  
     let literal = "this is literal"; // datatype : &str
     // world.push_str(" new world");
     // println!("{}", world);
 }
 
+// 4-10 other slices
+
+// fn type_id<T: std::any::Any>(_: &T) {
+//     println!("{:?}", std::any::TypeId::of::<T>());
+// }
+
+fn other_slices(){
+
+    let array = [4..5];
+    let array_ref = &array[0..1];
+    
+}
 
 
 fn main() {
-    ownership_1();
-    ownership_2();
+    // ownership_1();
+    // ownership_2();
 
-    ref_borrow();
-    ref_mut_ref();
-    ref_use_both();
+    // ref_borrow();
+    // ref_mut_ref();
+    // ref_use_both();
+    // dead_ref();
     
-    slice();
+    // slice();
     main2();
+    // other_slices();
 }
